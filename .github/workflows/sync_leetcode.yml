@@ -1,17 +1,21 @@
-name: Sync Past Leetcode Submissions
+name: Sync Leetcode
+
 on:
-  workflow_dispatch: # Allows you to trigger this manually with a button click
+  workflow_dispatch:
+  schedule:
+    - cron: "0 8 * * 6"
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Run LeetCode Sync
+      - name: Sync
         uses: joshcai/leetcode-sync@v1.7
         with:
           github-token: ${{ github.token }}
           leetcode-csrf-token: ${{ secrets.LEETCODE_CSRF_TOKEN }}
           leetcode-session: ${{ secrets.LEETCODE_SESSION }}
-          destination-folder: solutions
-          # Force the action to scan your whole history
-          skip-unsolved: true 
+          destination-folder: my-folder
+          verbose: true
+          commit-header: "[LeetCode Sync]"
